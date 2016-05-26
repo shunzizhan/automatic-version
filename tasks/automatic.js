@@ -16,7 +16,11 @@ module.exports = function (grunt) {
           version = '1.0.0';
         }
         version += '.' + new Date().getFullYear() + (new Date().getMonth()+1) + new Date().getDate();
-        newurl = _name.split('v=')[0] + 'v=' + version;
+        if(_name.indexOf('?v')>0){
+          newurl = _name.split('v=')[0] + 'v=' + version;
+        }else{
+          newurl = _name.split('v=')[0] + '?v=' + version;
+        }
         return newurl;
     }
 
