@@ -40,6 +40,8 @@ module.exports = function (grunt) {
 
                         var data = grunt.file.read(fileSrc);
 
+                        grunt.log.write(f.src);
+                        
                         assetUrl = f.src + "";
 
                         if (grunt.file.exists(assetUrl)) {

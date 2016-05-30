@@ -62,5 +62,8 @@
   "_resolved": "http://registry.npm.taobao.org/automatic-version-increment/download/automatic-version-increment-0.2.0.tgz",
   "gitHead": "841c507d888197f0a1eb64f944378ab6a8845fc8",
   "publish_time": 1421025760189,
-  "_cnpm_publish_time": 1421025760189
+  "_cnpm_publish_time": 1421025760189,
+  "dependencies": {
+    "grunt-contrib-copy": "^1.0.0"
+  }
 }
