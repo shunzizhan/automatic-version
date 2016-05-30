@@ -91,6 +91,6 @@ module.exports = function (grunt) {
 
     // By default, lint and run all tests.
     // grunt.registerTask('default', ['automatic']);
-    grunt.registerTask('default', ['clean', 'copy', 'rev','automatic']);
+    grunt.registerTask('default', ['clean', 'copy','automatic']);
 
 };

@@ -7,15 +7,23 @@
  */
 
 'use strict';
+var fs = require('fs'),
+  path = require('path'),
+  crypto = require('crypto');
 
 module.exports = function (grunt) {
-    function getNewUrl(_name, version) {
+    function getNewUrl(_name, version,hashcode) {
 
         var newurl = '';
         if(!version){
           version = '1.0.0';
         }
-        version += '.' + new Date().getFullYear() + (new Date().getMonth()+1) + new Date().getDate();
+        if(!hashcode){
+           version += '.'+ new Date().getTime().substring(0,8);
+        }else{
+           version += '.' + hashcode;
+        }
+        // version += '.' + new Date().getFullYear() + (new Date().getMonth()+1) + new Date().getDate();
         if(_name.indexOf('?v')>0){
           newurl = _name.split('v=')[0] + 'v=' + version;
         }else{
@@ -24,6 +32,22 @@ module.exports = function (grunt) {
         return newurl;
     }
 
+    function md5(filepath, algorithm, encoding, fileEncoding) {
+        var hash = crypto.createHash(algorithm);
+        grunt.log.verbose.write('Hashing ' + filepath + '...');
+        hash.update(grunt.file.read(filepath), fileEncoding);
+        return hash.digest(encoding);
+    }
+    function getHashCode(fs){
+        var options = {
+          encoding: 'utf8',
+          algorithm: 'md5',
+          length: 8
+        };
+        var hash = md5(fs, options.algorithm, 'hex', options.encoding),
+          prefix = hash.slice(0, options.length);
+        return prefix;
+    }
     function doReplaceUrl(fileSrc, assetUrls, options, version) {
 
         if (grunt.file.exists(fileSrc)) {
@@ -41,7 +65,7 @@ module.exports = function (grunt) {
                         var data = grunt.file.read(fileSrc);
 
                         grunt.log.write(f.src);
-                        
+
                         assetUrl = f.src + "";
 
                         if (grunt.file.exists(assetUrl)) {
@@ -60,7 +84,10 @@ module.exports = function (grunt) {
 
                                 var _url = fullAssetUrl.substring(fullAssetUrl.indexOf(assetUrl), fullAssetUrl.length - 1);
                                 
-                                var newurl = getNewUrl(_url, version);
+                                var hashcode = getHashCode(f.src);
+                                grunt.log.write(hashcode);
+                                
+                                var newurl = getNewUrl(_url, version,hashcode);
 
                                 var newdata = data.replace(_url, newurl);
                                 
