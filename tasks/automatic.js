@@ -64,8 +64,6 @@ module.exports = function (grunt) {
 
                         var data = grunt.file.read(fileSrc);
 
-                        grunt.log.write(f.src);
-
                         assetUrl = f.src + "";
 
                         if (grunt.file.exists(assetUrl)) {
@@ -85,14 +83,13 @@ module.exports = function (grunt) {
                                 var _url = fullAssetUrl.substring(fullAssetUrl.indexOf(assetUrl), fullAssetUrl.length - 1);
                                 
                                 var hashcode = getHashCode(f.src);
-                                grunt.log.write(hashcode);
                                 
                                 var newurl = getNewUrl(_url, version,hashcode);
 
                                 var newdata = data.replace(_url, newurl);
                                 
                                 if (grunt.file.write(fileSrc, newdata)) {
-                                    grunt.log.success(fileSrc + ' add js or css version successfully');
+                                    grunt.log.success(fileSrc + ">>" + 'hashcode'+' add js or css version successfully');
                                 }
                             } else {
                                 //grunt.log.warn('asset not found in file ' + fileSrc);
